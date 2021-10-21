@@ -290,3 +290,14 @@ app.post('/login', (req, res) => {
     });
 });
 ```
+
+Level 4 - Database Security - Cookies and Sessions - Code Example
+===
+
+For more information, refer to "030_password-hashing-salting_Level4".
+
+NPM Package(s) Used:
+- passport
+- passport-local
+- passport-local-mongoose
+- express-session

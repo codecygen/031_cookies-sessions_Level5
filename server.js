@@ -4,11 +4,11 @@ const express = require('express');
 const ejs = require('ejs');
 // Initialize Express
 
-// password hashing and salting package
-const bcrypt = require('bcrypt');
-const saltRounds = 10;
-
 const app = express();
+
+const session = require('express-session');
+const passport = require('passport');
+const passportLocalMongoose = require('passport-local-mongoose');
 
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -47,21 +47,6 @@ app.get('/register', (req, res) => {
 
 app.post('/register', (req, res) => {
 
-    bcrypt.hash(req.body.password, saltRounds, (err, hash) => {
-        const newUser = new User({
-            email: req.body.username,
-            password: hash
-        });
-    
-        newUser.save((err) => {
-            if(err){
-                console.error(err);
-            } else {
-                console.log('New user added!');
-                res.render('secrets');
-            }
-        });
-    });
 });
 
 // Do not use findOne method with 2 parameters, this is not how it is documented.
@@ -88,27 +73,7 @@ app.post('/register', (req, res) => {
 // });
 
 app.post('/login', (req, res) => {
-    const email = req.body.username;
-    const password = req.body.password;
 
-    User.findOne({email: email}, (err, user) => {
-        if(err) {
-            console.error(err);
-        } else {
-            if(user){
-                bcrypt.compare(password, user.password, (err, result) => {
-                    if(result === true) {
-                        console.log('You are already registered!');
-                        res.render('secrets');
-                    } else {
-                        console.error('Wrong password!');
-                    }
-                });
-            } else {
-                console.error('You are never registered!');
-            }
-        }
-    });
 });
 
 // Port website will run on
