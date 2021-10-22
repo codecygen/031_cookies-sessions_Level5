@@ -6,9 +6,19 @@ const ejs = require('ejs');
 
 const app = express();
 
+// xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+// ==========================================
+// ==========================================
 const session = require('express-session');
 const passport = require('passport');
+// passport-local-mongoose salts and hashes user password
 const passportLocalMongoose = require('passport-local-mongoose');
+// passport-local is a dependency needed by passport-local-mongoose
+// but we dont need to create a separate constant for that such as
+// const passportLocal = require('passport-local');
+// ==========================================
+// ==========================================
+// xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -18,6 +28,21 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(__dirname + '/public'));
 // Set the view engine to ejs
 app.set('view engine', 'ejs');
+
+// xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+// ==========================================
+// ==========================================
+// This section will use express-session. It should be before all app.use methods
+// but above mongoose connect.
+app.use(session({
+    secret: 'Our little secret.',
+    resave: false,
+    saveUninitialized: false }));
+app.use(passport.initialize());
+app.use(passport.session());
+// ==========================================
+// ==========================================
+// xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 main().catch((err) => console.log(err));
 
@@ -30,7 +55,31 @@ const userSchema = new mongoose.Schema({
     password: String
 });
 
+// xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+// ==========================================
+// ==========================================
+userSchema.plugin(passportLocalMongoose);
+// ==========================================
+// ==========================================
+// xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
 const User = mongoose.model('User', userSchema);
+
+// xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+// ==========================================
+// ==========================================
+passport.use(User.createStrategy());
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+passport.serializeUser(function(user, done) {
+    done(null, user);
+});
+passport.deserializeUser(function(user, done) {
+    done(null, user);
+});
+// ==========================================
+// ==========================================
+// xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 
 app.get('/', (req, res) => {
@@ -45,9 +94,31 @@ app.get('/register', (req, res) => {
     res.render('register');
 });
 
-app.post('/register', (req, res) => {
-
+// xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+// ==========================================
+// ==========================================
+app.get('/secrets', (req, res) => {
+    if(req.isAuthenticated()) {
+        res.render('secrets');
+    } else {
+        res.redirect('/login');
+    }
 });
+app.post('/register', (req, res) => {
+    User.register({username: req.body.username}, req.body.password, (err, user) => {
+      if(err) {
+          console.err(err);
+          res.redirect('/register');
+      } else {
+          passport.authenticate('local')(req, res, () => {
+            res.redirect('/secrets');
+          });
+      }
+    });
+});
+// ==========================================
+// ==========================================
+// xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 // Do not use findOne method with 2 parameters, this is not how it is documented.
 // Use only email or password instead. See below app.post code for more details
@@ -73,7 +144,21 @@ app.post('/register', (req, res) => {
 // });
 
 app.post('/login', (req, res) => {
+    const user = new User({
+    email: req.body.username,
+    password: req.body.password 
+    });
 
+    // this method comes from passport
+    req.login(user, (err) => {
+        if(err) {
+            console.error(err);
+        } else {
+            passport.authenticate('local')(req, res, () => {
+                res.redirect('/secrets');
+            });
+        }
+    });
 });
 
 // Port website will run on

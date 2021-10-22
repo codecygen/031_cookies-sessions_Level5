@@ -239,7 +239,7 @@ Level 4 - Database Security - Password Hashing and Salting, Salting Rounds - Cod
 For more information, refer to "030_password-hashing-salting_Level4".
 
 NPM Package(s) Used:
-- bycrypt
+- bcrypt
 
 
 ```
