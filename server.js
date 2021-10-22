@@ -97,6 +97,10 @@ app.get('/register', (req, res) => {
 // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 // ==========================================
 // ==========================================
+app.get('/logout', (req, res) => {
+    req.logout();
+    res.redirect('/');
+});
 app.get('/secrets', (req, res) => {
     if(req.isAuthenticated()) {
         res.render('secrets');
@@ -143,6 +147,9 @@ app.post('/register', (req, res) => {
 //     });
 // });
 
+// xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+// ==========================================
+// ==========================================
 app.post('/login', (req, res) => {
     const user = new User({
     email: req.body.username,
@@ -160,6 +167,9 @@ app.post('/login', (req, res) => {
         }
     });
 });
+// ==========================================
+// ==========================================
+// xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 // Port website will run on
 const port = 3000;
