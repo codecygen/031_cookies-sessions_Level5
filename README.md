@@ -524,3 +524,8 @@ GET (Stage 1): Our server sends a get request to Google server if the username a
 POST (Stage 2): Google authenticates the user and sends over the authentication data to Our Server. Then we can add the email address that they entered in our database.
 
 ![sdfs](https://user-images.githubusercontent.com/32443904/138580584-c1f65a83-b643-4105-a08b-b7c3d66a2350.png) 
+
+
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/32443904/138580584-c1f65a83-b643-4105-a08b-b7c3d66a2350.png" />
+</p>
