@@ -319,6 +319,7 @@ const app = express();
 // ==========================================
 // ==========================================
 const session = require('express-session');
+// express-session is a middleware
 const passport = require('passport');
 // passport-local-mongoose salts and hashes user password
 const passportLocalMongoose = require('passport-local-mongoose');
@@ -344,9 +345,19 @@ app.set('view engine', 'ejs');
 // This section will use express-session. It should be before all app.use methods
 // but above mongoose connect.
 app.use(session({
+    // This secret will be stored in environmental variable.
+    // You do not want to expose this to the public.
+    // It means if the secret is invalid, then the session is invalid as well.
     secret: 'Our little secret.',
     resave: false,
-    saveUninitialized: false }));
+    saveUninitialized: false,
+    // After a day, the cookie will be deleted.
+    cookie: {
+        maxAge: 1000 * 60 * 60 * 24, // 1 day in total
+        // Do not send secure true if it is not an https server.
+        // secure: true,
+    }
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 // ==========================================
@@ -367,6 +378,7 @@ const userSchema = new mongoose.Schema({
 // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 // ==========================================
 // ==========================================
+// passport-local-mongoose is a Mongoose plugin.
 userSchema.plugin(passportLocalMongoose);
 // ==========================================
 // ==========================================
@@ -377,6 +389,7 @@ const User = mongoose.model('User', userSchema);
 // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 // ==========================================
 // ==========================================
+// This section comes from passport package
 passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
@@ -407,12 +420,16 @@ app.get('/register', (req, res) => {
 // ==========================================
 // ==========================================
 app.get('/logout', (req, res) => {
+    // logout() method comes from passport package.
     req.logout();
     res.redirect('/');
 });
 app.get('/secrets', (req, res) => {
     if(req.isAuthenticated()) {
         res.render('secrets');
+        // req.session comes from espress-session package.
+        // It gives out info about session created in server side.
+        console.log(req.session);
     } else {
         res.redirect('/login');
     }
