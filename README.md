@@ -528,5 +528,27 @@ POST (Stage 2): Google authenticates the user and sends over the authentication 
   <img src="https://user-images.githubusercontent.com/32443904/138580584-c1f65a83-b643-4105-a08b-b7c3d66a2350.png" />
 </p>
 
+There are similar standards to OAuth but first understand why do we need this standard.
+
+Why OAuth?
+1) Granular Access Levels:
+Your web app ask info to Google database in different levels. You might only need their profile and email address. If it is Facebook server that your web app requests info, you might want to request what their friends are just not to accidentally suggest their already existing friends as a friend on your web app.
+
+2) Read Only or Read/Write Access:
+Your web app might want to have Read/Write access to your database if it needs to do some specific task.
+
+3) Revoke Access:
+User can revoke the authorization that they granted on your website.
+
+There are Steps to use OAuth
+Step 1: Set up Your App in the developer console of bigger website in return we get an App ID or a client ID.
+Step 2: User Login Page. This page will take them to the actual website of bigger website so that the user can login.
+Step 3: Our App asks permission after the user logins to their account on the bigger website.
+Step 4: Now out server is able to receive Auth Code. If we want to go a step further, we can also exchange our Auth Code for an Access Token. Then we can save the Access Token into our database. The Access Token can be saved if we want pieces of info from the bigger website. The Access Token is valid longer than Auth Code. Access Token is like a one time pass whilst the Access Token can be perceived as a year pass.
+
+NPM package Passport which is a middleware and the Passport strategy
+
+
 NPM Package(s) Used:
-- 
+- passport
+- passport-google.oauth20
