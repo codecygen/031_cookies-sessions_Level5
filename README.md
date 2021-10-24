@@ -513,3 +513,12 @@ app.listen(port, function() {
 	console.log(`Server is running on port ${port}`);
 });
 ```
+
+Level 6 - Database Security - 3rd Part Authorization, OAUTH - Code Example
+===
+
+For example if we have a web app, we can authorize users to our website with the help of a third party account login, such as Google.
+
+
+| Google Server     |                  | Our Server        |
+| ----------------- |                  | ----------------- |                   
