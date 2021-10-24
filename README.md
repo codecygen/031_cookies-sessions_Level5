@@ -517,7 +517,7 @@ app.listen(port, function() {
 Level 6 - Database Security - 3rd Part Authorization, OAUTH - Code Example
 ===
 
-For example if we have a web app, we can authorize users to our website with the help of a third party account login, such as Google.
+For example if we have a web app, we can authorize and authenticate users to our website with the help of a third party account login, such as Google. This is even securer than previous methods because in this one, instead of relying on our server and our limited staff, we delegate this task to the bigger companies. It is also much easier for individuals to use their Google account to authenticate themselves into our website rather than creating a new account and password for our website as well.
 
 GET (Stage 1): Our server sends a get request to Google server if the username and password the person enters matches the data.
 
