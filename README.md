@@ -298,6 +298,16 @@ app.post('/login', (req, res) => {
 Level 5 - Database Security - Cookies and Sessions - Code Example
 ===
 
+Sessions cover storing client's information in server side about visiting a website. Cookies cover storing client's information on client side about a website. In general, heavy lifting is done on the Sessions file so larger files and info is stored in server side.
+
+Session and cookie files are used for authentication and authorization of a user. Authentication is a process of verifying client's legitimacy. Authorization is a process of verifying what kind of specific page, data, info a user is able to access.
+
+In this module, authentication and authorization topics covered in order to protect user specific data from outside world.
+
+For creating session files, express-session middleware used. For authentication, passport is used.
+
+Express is a framework for NodeJS, however express-session is a middlewawre for Express framework. A middleware strategy is built by someone on top of a framework. It is kind of community modding for gaming.
+
 For more information, refer to "031_cookies-sessions_Level5".
 
 NPM Package(s) Used:
