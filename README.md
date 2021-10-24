@@ -524,6 +524,6 @@ GET (Stage 1): Our server sends a get request to Google server if the username a
 POST (Stage 2): Google authenticates the user and sends over the authentication data to Our Server. Then we can add the email address that they entered in our database.
 
                            GET (1)
-                    <------------------- 
+                    <=================== 
                            POST (2)
-Google Server       ------------------->       Our Server   
+Google Server       ===================>       Our Server   
