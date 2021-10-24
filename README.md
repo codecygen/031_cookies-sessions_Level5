@@ -519,12 +519,11 @@ Level 6 - Database Security - 3rd Part Authorization, OAUTH - Code Example
 
 For example if we have a web app, we can authorize users to our website with the help of a third party account login, such as Google.
 
+GET (Stage 1): Our server sends a get request to Google server if the username and password the person enters matches the data.
 
+POST (Stage 2): Google authenticates the user and sends over the authentication data to Our Server. Then we can add the email address that they entered in our database.
 
-|-----------------|
-|                 |
-|                 |
-|  Google Server  |
-|                 |
-|                 |
-|-----------------|
+                           GET (1)
+                    <------------------- 
+                           POST (2)
+Google Server       ------------------->       Our Server   
