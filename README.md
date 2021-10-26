@@ -541,14 +541,29 @@ Your web app might want to have Read/Write access to your database if it needs t
 User can revoke the authorization that they granted on your website.
 
 There are Steps to use OAuth
-Step 1: Set up Your App in the developer console of bigger website in return we get an App ID or a client ID.
-Step 2: User Login Page. This page will take them to the actual website of bigger website so that the user can login.
-Step 3: Our App asks permission after the user logins to their account on the bigger website.
-Step 4: Now out server is able to receive Auth Code. If we want to go a step further, we can also exchange our Auth Code for an Access Token. Then we can save the Access Token into our database. The Access Token can be saved if we want pieces of info from the bigger website. The Access Token is valid longer than Auth Code. Access Token is like a one time pass whilst the Access Token can be perceived as a year pass.
+1) Step 1: Set up Your App in the developer console of bigger website in return we get an App ID or a client ID.
+2) Step 2: User Login Page. This page will take them to the actual website of bigger website so that the user can login.
+3) Step 3: Our App asks permission after the user logins to their account on the bigger website.
+4) Step 4: Now out server is able to receive Auth Code. If we want to go a step further, we can also exchange our Auth Code for an Access Token. Then we can save the Access Token into our database. The Access Token can be saved if we want pieces of info from the bigger website. The Access Token is valid longer than Auth Code. Access Token is like a one time pass whilst the Access Token can be perceived as a year pass.
 
 NPM package Passport which is a middleware and the Passport strategy
 
 
 NPM Package(s) Used:
 - passport
-- passport-google.oauth20
+- passport-local
+- passport-local-mongoose
+- express-session
+- passport
+- passport-google-oauth20
+- mongoose-findorcreate
+
+Get Permission from Google:
+- Go to Google Credentials.
+- Click on "CREATE CREDENTIALS" button then select "OAuth client ID".
+- Select "External" and click on "CREATE" button.
+- In the "OAuth consent screen" fill in the compulsory sections of the form. As an App Name I put "Google-OAuth2.0-Test".
+- In the Scopes tab you specify the permissions that the user should grant your app. Select email, profile and openid. These are the very basic permission google give your website everytime you authenticate.
+- Next, in the Test users tab, add the test users. I will add my email address as a test user.
+- Then go to "Credentials" tab from the left hand side of the page. Click on "CREATE CREDENTIALS" button then select "OAuth client ID".
+- Select "Web Application" and as an App Name put "Google-OAuth2.0-Test". For "Authorized JavaScript origins" put "http://localhost:3000". Whenever you change your server to an actual production server, you have to change this link. For "Authorized redirect URIs" put "http://localhost:3000/auth/google/secrets". Click on "CREATE" button.

@@ -82,8 +82,6 @@ const User = mongoose.model('User', userSchema);
 // ==========================================
 // This section comes from passport package
 passport.use(User.createStrategy());
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
 passport.serializeUser(function(user, done) {
     done(null, user);
 });
